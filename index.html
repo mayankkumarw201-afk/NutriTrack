@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriTrack | Enterprise Health Suite</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="toast" class="toast hidden">
+        <i class="ri-notification-3-line"></i>
+        <span id="toastMsg">Reminder Set!</span>
+    </div>
+
+    <div id="landing-section" class="landing-container">
+        <nav class="landing-nav glass-panel">
+            <div class="brand">
+                <i class="ri-heart-pulse-line logo-icon"></i>
+                <span>NutriTrack</span>
+            </div>
+            <ul class="landing-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#" onclick="showAuth()">Dashboard</a></li>
+                <li><a href="#" onclick="showAuth()">Streak Calendar</a></li>
+            </ul>
+            <button onclick="showAuth()" class="btn btn-primary">Login / Register</button>
+        </nav>
+
+        <header class="hero">
+            <div class="hero-badge fade-in-up">v3.0 Enterprise</div>
+            <h1 class="fade-in-up delay-1">Master Your <span class="highlight">Metabolic Data</span></h1>
+            <p class="fade-in-up delay-2">
+                The complete student health ecosystem. Track calories, monitor hydration, set dynamic goals, and visualize your monthly consistency streaks.
+            </p>
+            <div class="hero-actions fade-in-up delay-3">
+                <button onclick="showAuth()" class="btn btn-primary btn-lg">Launch v3.0</button>
+            </div>
+        </header>
+
+        <section class="stats-strip glass-panel fade-in-up delay-3">
+            <div class="stat-box">
+                <h3>Dynamic</h3>
+                <p>Goal Setting</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <h3>Visual</h3>
+                <p>Streak Calendar</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+                <h3>Smart</h3>
+                <p>Reminders</p>
+            </div>
+        </section>
+
+        <footer class="main-footer glass-panel">
+            <div class="footer-col">
+                <h3>NutriTrack</h3>
+                <p>Built for College Project Evaluation 2026.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
+        </footer>
+
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <section id="auth-section" class="auth-container hidden">
+        <div class="glass-panel fade-in-up auth-box">
+            <button onclick="showLanding()" class="btn-text"><i class="ri-arrow-left-line"></i> Back</button>
+            <div class="auth-header">
+                <i class="ri-shield-user-line logo-icon"></i>
+                <h1>Secure Access</h1>
+                <p>Enter your student credentials.</p>
+            </div>
+            <form id="authForm">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="Krishna Saini" required>
+                </div>
+                <div class="input-group">
+                    <label>Email ID</label>
+                    <input type="email" id="regEmail" placeholder="student@college.edu" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="app-section" class="app-layout hidden">
+        <nav class="sidebar glass-panel">
+            <div class="brand">
+                <i class="ri-heart-pulse-line"></i>
+                <span>NutriTrack</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" onclick="switchView('dashboard')">
+                    <i class="ri-dashboard-line"></i> <span>Dashboard</span>
+                </li>
+                <li onclick="switchView('tracker')">
+                    <i class="ri-add-circle-line"></i> <span>Tracker</span>
+                </li>
+                <li onclick="switchView('calendar')">
+                    <i class="ri-calendar-check-line"></i> <span>Streak Calendar</span>
+                </li>
+                <li onclick="switchView('profile')">
+                    <i class="ri-user-settings-line"></i> <span>Profile & Goals</span>
+                </li>
+            </ul>
+            <div class="user-mini-profile">
+                <div class="avatar-circle"><i class="ri-user-line"></i></div>
+                <div class="user-info">
+                    <h4 id="displayUserName">User</h4>
+                    <small onclick="logout()" class="logout-link">Logout</small>
+                </div>
+            </div>
+        </nav>
+
+        <main class="content-area">
+            
+            <div id="view-dashboard" class="view-section fade-in">
+                <header class="page-header">
+                    <h1>Daily Overview</h1>
+                    <p>Goal Status for: <span class="highlight" id="todayDate">Today</span></p>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="glass-panel dash-card">
+                        <h3>Calories</h3>
+                        <div class="progress-ring" id="calRing">
+                            <div class="ring-inner">
+                                <span id="dashCal">0</span><small>kcal</small>
+                            </div>
+                        </div>
+                        <p class="goal-text">Target: <span id="displayCalGoal">2000</span> kcal</p>
+                    </div>
+                    <div class="glass-panel dash-card">
+                        <h3>Hydration</h3>
+                        <div class="water-display">
+                            <i class="ri-cup-line float-anim"></i>
+                            <span id="dashWater">0L</span>
+                        </div>
+                        <p class="goal-text">Target: <span id="displayWaterGoal">3.0</span> L</p>
+                    </div>
+                    
+                    <div class="glass-panel dash-card full-width">
+                        <h3><i class="ri-medal-line"></i> Achievements</h3>
+                        <div class="badges-row">
+                            <div class="badge locked" id="badge-cal">
+                                <i class="ri-fire-line"></i>
+                                <span>Calorie Crusher</span>
+                            </div>
+                            <div class="badge locked" id="badge-water">
+                                <i class="ri-drop-line"></i>
+                                <span>Hydro Homie</span>
+                            </div>
+                            <div class="badge locked" id="badge-streak">
+                                <i class="ri-calendar-check-line"></i>
+                                <span>3-Day Streak</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-tracker" class="view-section hidden">
+                <div class="tracker-container glass-panel fade-in-up">
+                    <h2>Log Activity</h2>
+                    <div class="toggle-container">
+                        <button type="button" id="btn-food" class="toggle-btn active" onclick="setTrackerType('food')">
+                            <i class="ri-restaurant-line"></i> Food
+                        </button>
+                        <button type="button" id="btn-water" class="toggle-btn" onclick="setTrackerType('water')">
+                            <i class="ri-drop-line"></i> Water
+                        </button>
+                    </div>
+                    <form id="trackerForm">
+                        <div class="input-group" id="food-name-group">
+                            <label>Item Name</label>
+                            <input type="text" id="trackName" placeholder="e.g. Rice Bowl">
+                        </div>
+                        <div class="input-group">
+                            <label id="trackValueLabel">Caloric Value</label>
+                            <div class="input-row">
+                                <input type="number" id="trackValue" placeholder="0" required>
+                                <select id="unitSelector" class="hidden">
+                                    <option value="l">Liters (L)</option>
+                                    <option value="ml">Milliliters (ml)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Add Entry</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="view-calendar" class="view-section hidden">
+                <header class="page-header">
+                    <h1>Consistency Tracker</h1>
+                    <p>Monthly Performance Snapshot</p>
+                </header>
+                <div class="glass-panel full-width">
+                    <div class="calendar-header">
+                        <h3>This Month</h3>
+                        <div class="legend">
+                            <span class="dot green"></span> Met Goal
+                            <span class="dot gray"></span> Missed
+                        </div>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        </div>
+                </div>
+            </div>
+
+            <div id="view-profile" class="view-section hidden">
+                <div class="profile-grid">
+                    <div class="glass-panel profile-card fade-in-up">
+                        <div class="avatar-lg"><i class="ri-user-smile-line"></i></div>
+                        <h2 id="profileName">User</h2>
+                        <p id="profileEmail" style="color: var(--text-muted)">email@test.com</p>
+                        <button onclick="logout()" class="btn btn-outline btn-full" style="margin-top: 10px;">Logout</button>
+                    </div>
+
+                    <div class="glass-panel fade-in-up">
+                        <h3><i class="ri-equalizer-line"></i> Set Targets</h3>
+                        <form id="goalsForm">
+                            <div class="input-group">
+                                <label>Daily Calorie Goal (kcal)</label>
+                                <input type="number" id="goalCalInput" value="2000">
+                            </div>
+                            <div class="input-group">
+                                <label>Daily Water Goal (L)</label>
+                                <input type="number" id="goalWaterInput" value="3.0" step="0.1">
+                            </div>
+                            <button type="button" onclick="calculateBMI()" class="btn btn-text" style="font-size: 0.8rem; margin:0; padding:0;">Not sure? Calculate BMI</button>
+                            <button type="submit" class="btn btn-primary btn-full" style="margin-top: 15px;">Update Goals</button>
+                        </form>
+                    </div>
+
+                    <div class="glass-panel fade-in-up">
+                        <h3><i class="ri-alarm-warning-line"></i> Reminders</h3>
+                        <div class="reminder-row">
+                            <label>Drink Water Alert</label>
+                            <label class="switch">
+                                <input type="checkbox" id="remindWater">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="reminder-row">
+                            <label>Log Meal Alert</label>
+                            <label class="switch">
+                                <input type="checkbox" id="remindMeal">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label>Frequency</label>
+                            <select class="std-select">
+                                <option>Every 1 Hour</option>
+                                <option>Every 2 Hours</option>
+                                <option>Every 4 Hours</option>
+                            </select>
+                        </div>
+                        <button onclick="saveReminders()" class="btn btn-outline btn-full">Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="bmiModal" class="modal hidden">
+        <div class="glass-panel modal-content">
+            <h3>BMI Calculator</h3>
+            <div class="input-group">
+                <label>Weight (kg)</label>
+                <input type="number" id="bmiWeight">
+            </div>
+            <div class="input-group">
+                <label>Height (cm)</label>
+                <input type="number" id="bmiHeight">
+            </div>
+            <div id="bmiResult" class="highlight" style="margin: 10px 0; font-weight: bold;"></div>
+            <div class="modal-actions">
+                <button onclick="performBMICalc()" class="btn btn-primary">Calculate</button>
+                <button onclick="closeModal()" class="btn btn-text">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
